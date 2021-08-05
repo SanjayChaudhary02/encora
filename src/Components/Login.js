@@ -1,19 +1,18 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "../features/userSlice";
-import Container from 'react-bootstrap/Container';
+import { useDispatch, useSelector } from "react-redux";
+import { loginAsync, selectError } from "../features/userSlice";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import './login.css';
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
+    const hasError = useSelector(selectError);
     const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(login({
+        dispatch(loginAsync({
             username: username,
             password: password,
             loggedIn: true
@@ -31,8 +30,14 @@ const Login = () => {
                     <Form.Control type="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                 </Form.Group>
                 <Button variant="primary" type="submit">Login</Button>
+                {hasError && <ErrorComponent msg={hasError.msg?hasError.msg:""}></ErrorComponent>}
             </Form>
         </div>
     );
 };
+
+function ErrorComponent(msg) {
+    return <p className="errorMsg">Error: Please enter valid credential</p>
+}
+
 export default Login;

@@ -16,6 +16,7 @@ const Todos = (props) => {
       e.preventDefault();
     try {
         if (title === "") {
+            console.error("Empty input");
             throw new Error("Empty input");
         } else {
             dispatch(addTodo({
@@ -23,28 +24,36 @@ const Todos = (props) => {
                 desc: desc
             })
             );
-            setTitle("");
-            setDesc("");
-            setHasError(false);
+            clearNote();
         }
     } catch{
         setHasError(true);
     }
   };
 
+  const clearNote = () => {
+    setTitle("");
+    setDesc("");
+    setHasError(false);
+  };
+
   return (
-    <Form>
-        <Form.Group className="mb-3" controlId="title">
-            <Form.Label>Title</Form.Label>
-            <Form.Control type="text" placeholder="Enter title" onChange={(e) => setTitle(e.target.value)} value={title}/>
-        </Form.Group>
-        {hasError && <ErrorComponent></ErrorComponent>}
-        <Form.Group className="mb-3" controlId="body">
-            <Form.Label>Body</Form.Label>
-            <Form.Control as="textarea" rows={3} value={desc} onChange={(e) => setDesc(e.target.value)} />
-        </Form.Group>
-        <Button variant="primary" type="submit" onClick={(e) => add(e)}>Save</Button>
-  </Form>
+    <div>
+        <div className='mt-2 mb-2'><Button variant="outline-dark" type="button" onClick={() => clearNote()} className="float-end">+ Add Note</Button></div>
+        <Form>
+            <Form.Group className="mb-3" controlId="title">
+                <Form.Label>Title</Form.Label>
+                <Form.Control type="text" placeholder="Enter title" onChange={(e) => setTitle(e.target.value)} value={title}/>
+                {hasError && <ErrorComponent></ErrorComponent>}
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="body">
+                <Form.Label>Body</Form.Label>
+                <Form.Control as="textarea" rows={3} value={desc} onChange={(e) => setDesc(e.target.value)} />
+            </Form.Group>
+            <Button variant="primary" type="submit" onClick={(e) => add(e)}>Save</Button>
+        </Form>
+        
+    </div>
   );
 };
 

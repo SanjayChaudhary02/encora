@@ -16,7 +16,7 @@ const DisplayTodos = () => {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
     const header = {backgroundColor: '#f3f0ed', borderBottom: '1px solid #ccc'};
-    const list = {borderRight: '1px solid #ccc',height: '100vh'};
+    const list = {borderRight: '1px solid #ccc', borderBottom: '1px solid #ccc'}; /* ,height: '100vh' */
     const removeTodo = (id) => {
         dispatch(deleteTodo({
             id: id
@@ -35,7 +35,7 @@ const DisplayTodos = () => {
       <Col lg={1} md={2} xs={3}><Logout /></Col>
     </Row>
     <Row>
-      <Col md={4} xs={12} style={list}>
+      <Col md={4} xs={12} style={list} className="mb-2">
       <ListGroup>
           {todos.length > 0 ? todos.map((item) => {
                 return (
